@@ -1,0 +1,102 @@
+import java.util.Scanner;
+
+public class Solution{
+
+    static  void pentgonCheck(double xpoint, double ypoint){
+        //predefined A and B
+        double[] A = {1,1};
+        double[] B = {5,1};
+        double[] C = new double[2];
+        double[] D = new double[2];
+        double[] E = new double[2];
+
+
+        // finding E and C using trigonometric equations cos(theta) = base / hypotenuse
+
+        // C vertex = { 6.23607, 2.23606}
+        C[0] = B[0]+ (Math.cos(72)*4);
+        C[1] = B[1]+(Math.sin(72)*4);
+
+        //E vertex = { -0.23607, 2.23606}
+        E[0] = A[0] - Math.cos(72)*4;
+        E[1] = A[1] + Math.sin(72)*4;
+
+
+        // D vertex
+        D[0] = 3;
+        D[1] = C[1]-Math.sin(36);
+
+
+
+        if(ypoint>=A[1] && ypoint <= E[1]){
+            ///////////////////////////////////
+            // LAYER1
+            ///////////////////////////////////
+            if(xpoint<= D[0]){ //LAYER1 - LEFT SIDE
+                // x = ((y-y1)*((x2-x1)/(y2-y1)))+x2
+                double xLimiter = ((ypoint - A[1])*((E[0]-A[0])/(E[1]-A[1])))+A[0];
+                if( xpoint>xLimiter){
+                    System.out.println("INSIDE");
+                }else if(xpoint == xLimiter){
+                    System.out.println("ON THE EDGE");
+                }
+
+            }else if(xpoint>D[0]){ // LAYER1 - RIGHT SIDE
+                // x = ((y-y1)*((x2-x1)/(y2-y1)))+x2
+                double xLimiter = ((ypoint - B[1])*((C[0]-B[0])/(C[1]-B[1])))+B[0];
+                if( xpoint<xLimiter){
+                    System.out.println("INSIDE");
+                }else if(xpoint == xLimiter){
+                    System.out.println("ON THE EDGE");
+                }
+            }
+        }else if(ypoint >E[1] &&ypoint <= D[1]){
+            ///////////////////////////////////
+            // LAYER2
+            ///////////////////////////////////
+            if(xpoint<= D[0]){ // LAYER2 - LEFT SIDE
+                // x = ((y-y1)*((x2-x1)/(y2-y1)))+x2
+                double xLimiter = ((ypoint - E[1])*((D[0]-E[0])/(D[1]-E[1])))+E[0];
+                if( xpoint>xLimiter){
+                    System.out.println("INSIDE");
+                }else if(xpoint == xLimiter){
+                    System.out.println("ON THE EDGE");
+                }
+
+            }else if(xpoint>D[0]){ // LAYER2 - RIGHT SIDE
+                // x = ((y-y1)*((x2-x1)/(y2-y1)))+x2
+                double xLimiter = ((ypoint - C[1])*((D[0]-C[0])/(D[1]-C[1])))+D[0];
+                if( xpoint<xLimiter){
+                    System.out.println("INSIDE");
+                }else if(xpoint == xLimiter){
+                    System.out.println("ON THE EDGE");
+                }
+            }
+        }else{
+            System.out.println("OUTSIDE");
+        }
+    }
+    public static void main(String[] args){
+        //PENTAGON
+        // assumptions:
+        // 1. it is a regular pentagon
+        // base is parallel to x-axis
+
+        System.out.println("____PENTAGON____");
+        int continueOrNot = 1;
+        while(continueOrNot == 1){
+
+            Scanner s = new Scanner(System.in);
+            System.out.print("Type the x coordinate: ");
+            double xpoint = s.nextDouble();
+            System.out.print("Type the x coordinate: ");
+            double ypoint = s.nextDouble();
+
+            pentgonCheck(xpoint,ypoint);
+
+            System.out.println("Do you want to continue\n(0 - STOP, 1 - CONTINUE): ");
+            continueOrNot = s.nextInt();
+        }
+
+    }
+}
